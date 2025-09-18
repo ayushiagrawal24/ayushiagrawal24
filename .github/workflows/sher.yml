@@ -2,21 +2,24 @@ name: Generate Sher animation
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # har 6 ghante update hoga
+    - cron: "0 */6 * * *"   # har 6 ghante run hoga
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: Platane/snk/svg-only@v3
-        id: build
+      - name: Checkout repository
+        uses: actions/checkout@v3   # ye step missing tha
+
+      - name: Generate Sher.svg
+        uses: Platane/snk/svg-only@v3
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
             dist/sher.svg
 
-      - name: Push sher animation
+      - name: Push sher animation to output branch
         uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
           target_branch: output
